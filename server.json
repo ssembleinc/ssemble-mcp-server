@@ -1,33 +1,36 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.gitlab.vlogr/ssemble-mcp-server",
+  "name": "com.ssemble/mcp-server",
   "title": "Ssemble AI Clipping",
-  "description": "Create AI-powered short-form video clips from YouTube videos or uploaded files. Browse caption templates, background music, gameplay overlays, and meme hooks.",
-  "version": "1.0.0",
-  "websiteUrl": "https://aiclipping.ssemble.com",
+  "description": "Create AI-powered short-form video clips from YouTube videos using any AI assistant.",
+  "version": "1.0.2",
+  "websiteUrl": "https://www.ssemble.com",
   "repository": {
-    "type": "git",
-    "url": "https://gitlab.com/vlogr/ssemble-mcp-server.git"
+    "url": "https://gitlab.com/vlogr/ssemble-mcp-server",
+    "source": "gitlab"
   },
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@ssemble/mcp-server",
-      "version": "1.0.0",
-      "transport": "stdio",
+      "version": "1.0.2",
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "SSEMBLE_API_KEY",
-          "description": "Your Ssemble API key (starts with sk_ssemble_). Get it at https://app.ssemble.com → Settings → API Keys",
-          "required": true
+          "description": "Your Ssemble API key (starts with sk_ssemble_)",
+          "isRequired": true,
+          "isSecret": true
         }
       ]
     }
   ],
   "remotes": [
     {
-      "transportType": "streamable-http",
+      "type": "streamable-http",
       "url": "https://mcp.ssemble.com/mcp"
     }
   ]
