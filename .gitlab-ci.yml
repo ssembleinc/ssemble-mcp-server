@@ -3,6 +3,8 @@ stages:
 
 deploy_development_mcp:
   stage: deploy
+  tags:
+    - gitlab-runner-shell
   script:
     - echo "Deploying MCP Server to DEV server (10.0.0.20)..."
     - |
@@ -27,6 +29,8 @@ deploy_development_mcp:
 
 deploy_main_mcp:
   stage: deploy
+  tags:
+    - gitlab-runner-shell
   script:
     - echo "Deploying MCP Server to API servers (10.0.0.12, 10.0.0.13)..."
     - |
