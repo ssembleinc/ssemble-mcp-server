@@ -1027,16 +1027,310 @@ These are the actions the AI can invoke:
 
 ### Phase 7: Publishing & Distribution
 
-- [x] **Publish to npm** — `@ssemble/mcp-server@1.0.0` published (https://www.npmjs.com/package/@ssemble/mcp-server)
+- [x] **Publish to npm** — `@ssemble/mcp-server@1.0.3` published (https://www.npmjs.com/package/@ssemble/mcp-server)
 - [x] **Create `server.json`** for Official MCP Registry — Already in repo with npm package + remote transport metadata
 - [x] **Submit to Official MCP Registry** — Published as `com.ssemble/mcp-server@1.0.2` via DNS auth (ssemble.com). Status: active. Verified in registry search. (March 25, 2026)
-- [ ] **Submit to Smithery.ai** — Submit `https://mcp.ssemble.com/mcp` at smithery.ai/new
-- [ ] **Submit to mcp.so** — Community directory, web form submission
-- [ ] **Submit to Glama.ai** — Auto-indexed by npm keywords, or manual submit
-- [ ] **Push to GitHub** — Public repo at `gitlab.com/vlogr/ssemble-mcp-server` with topics: mcp, ai-clipping, video, shorts
-- [ ] **Product Hunt launch** — Landing page + demo video
-- [ ] **Reddit/HN posts** — r/LocalLLaMA, r/ChatGPT, r/artificial, Show HN
-- [ ] **Create demo video** — Show end-to-end usage with Claude
+- [ ] **Submit to Smithery.ai** — See [detailed instructions below](#smithery-submission)
+- [x] **Submit to mcp.so** — Submitted via web form (March 25, 2026)
+- [ ] **Submit to Glama.ai** — See [detailed instructions below](#glama-submission)
+- [ ] **Push to GitHub** — See [detailed instructions below](#github-mirror)
+- [ ] **Product Hunt launch** — See [detailed instructions below](#product-hunt-launch)
+- [ ] **Reddit/HN posts** — See [detailed instructions below](#reddit--hacker-news-posts)
+- [ ] **Create demo video** — See [detailed instructions below](#demo-video)
+
+---
+
+#### Smithery Submission
+
+**What:** Smithery.ai is one of the largest MCP server directories. Listing here gives visibility to users browsing for MCP servers.
+
+**Prerequisites:**
+- A **GitHub account** — the listing will be published under this account. **Use the official Ssemble/company GitHub account**, not a personal one, since the listing will show the GitHub username publicly.
+- The MCP endpoint is already live and compatible: `https://mcp.ssemble.com/mcp`
+
+**Option A: CLI (Recommended)**
+
+```bash
+# Step 1 — Install and authenticate with GitHub
+npx @smithery/cli auth login
+# This opens a browser window for GitHub OAuth. Log in with the OFFICIAL Ssemble GitHub account.
+
+# Step 2 — Publish the server
+npx @smithery/cli mcp publish "https://mcp.ssemble.com/mcp" \
+  --name "ssemble/mcp-server" \
+  --title "Ssemble AI Clipping" \
+  --description "Create AI-powered short-form video clips from YouTube videos using any AI assistant"
+```
+
+**Option B: Web Form**
+
+1. Go to https://smithery.ai/new
+2. Click "Sign in with GitHub" — use the **official Ssemble GitHub account**
+3. Enter the MCP server URL: `https://mcp.ssemble.com/mcp`
+4. Fill in the details:
+   - Name: `ssemble/mcp-server`
+   - Title: `Ssemble AI Clipping`
+   - Description: `Create AI-powered short-form video clips from YouTube videos using any AI assistant`
+5. Submit
+
+**Verification:** After submission, the listing should appear at `https://smithery.ai/server/ssemble/mcp-server`. Smithery auto-discovers the server capabilities by connecting to the `/mcp` endpoint (this already works without an API key since v1.0.3).
+
+---
+
+#### Glama Submission
+
+**What:** Glama.ai is an MCP server directory that auto-indexes npm packages with the `mcp` keyword. Our package already has the right keywords, so it may already be listed.
+
+**Prerequisites:** None for auto-indexing. For manual submission or awesome-mcp-servers PR, a **GitHub account** is needed.
+
+**Step 1 — Check if already indexed:**
+1. Go to https://glama.ai/mcp/servers
+2. Search for "ssemble" or "@ssemble/mcp-server"
+3. If already listed, mark this task as done!
+
+**Step 2 — If NOT auto-indexed, submit manually:**
+1. Go to https://glama.ai/mcp/servers
+2. Look for a "Submit" or "Add Server" button
+3. Enter the npm package name: `@ssemble/mcp-server`
+4. Or enter the GitLab repo URL: `https://gitlab.com/vlogr/ssemble-mcp-server`
+
+**Step 3 (Optional but recommended) — PR to awesome-mcp-servers:**
+This is the most popular community list of MCP servers on GitHub.
+
+1. Go to https://github.com/punkpeye/awesome-mcp-servers
+2. Fork the repository (use **official Ssemble GitHub account**)
+3. Edit `README.md` — add Ssemble under the appropriate category (likely "Media & Content" or "Video"):
+   ```markdown
+   - [Ssemble AI Clipping](https://www.npmjs.com/package/@ssemble/mcp-server) - Create AI-powered short-form video clips from YouTube videos. Browse templates, music, gameplay overlays, and meme hooks.
+   ```
+4. Submit a Pull Request with title: `Add Ssemble AI Clipping MCP server`
+5. Wait for maintainer review (typically 1-7 days)
+
+---
+
+#### GitHub Mirror
+
+**What:** Many MCP directories and users expect a GitHub repo. Creating a public mirror (or primary repo) on GitHub increases discoverability.
+
+**Prerequisites:** Access to the **official Ssemble GitHub organization** (or create one like `AiClipping` or `ssemble-com`).
+
+**Steps:**
+
+1. **Create a new public repo on GitHub:**
+   - Go to https://github.com/new
+   - Repository name: `ssemble-mcp-server`
+   - Description: `MCP server for Ssemble AI Clipping — create viral short-form videos from any AI assistant`
+   - Visibility: **Public**
+   - Do NOT initialize with README (we already have one)
+
+2. **Push the existing code:**
+   ```bash
+   cd /home/cer/ssemble_projects/ssemble-mcp-server
+   git remote add github https://github.com/YOUR_ORG/ssemble-mcp-server.git
+   git push github main
+   ```
+
+3. **Add repository topics** (for discoverability):
+   - Go to the repo page on GitHub → click the gear icon next to "About"
+   - Add topics: `mcp`, `model-context-protocol`, `ai-clipping`, `video`, `shorts`, `youtube`, `tiktok`, `claude`, `cursor`
+
+4. **Update references** (after GitHub repo is created):
+   - Update `server.json` → change `repository.url` to the GitHub URL
+   - Update `package.json` → change `repository.url` to the GitHub URL
+   - Publish a new npm version with the updated URLs
+   - Update the MCP Registry: `npx @anthropic-ai/mcp-publisher@latest publish`
+
+**Note:** You can keep GitLab as the primary and push to both remotes, or fully migrate to GitHub. For MCP ecosystem visibility, GitHub is strongly preferred since most tools and directories link to GitHub repos.
+
+---
+
+#### Demo Video
+
+**What:** A short (2-3 minute) screen recording showing the MCP server in action. Needed for Product Hunt launch and general marketing.
+
+**Prerequisites:** A working Ssemble API key with credits.
+
+**Script outline:**
+
+1. **Intro (15s):** "Ssemble AI Clipping now works directly inside your AI assistant via MCP"
+2. **Setup (30s):** Show adding the MCP server to Claude Desktop or Claude Code
+3. **Create a short (45s):** Ask Claude to create a short from a YouTube video with specific options (template, music, gameplay)
+4. **Check status (15s):** Ask Claude for progress update
+5. **Get results (30s):** Show the generated clips with viral scores, download a clip
+6. **Browse assets (15s):** Quick demo of browsing templates, music, game videos
+7. **Outro (15s):** "Available now — npx @ssemble/mcp-server — works with Claude, Cursor, Windsurf, VS Code"
+
+**Tools for recording:** OBS Studio (free), Loom, or ScreenPal. Recommended resolution: 1920x1080.
+
+**Where it will be used:**
+- Product Hunt gallery (required)
+- GitHub repo README (embedded or linked)
+- Ssemble website / blog post
+- Reddit/HN posts (linked)
+
+---
+
+#### Product Hunt Launch
+
+**What:** Product Hunt is a platform for launching new products. A good launch can drive thousands of visitors in a single day.
+
+**Prerequisites:**
+- **Product Hunt account** — create at https://www.producthunt.com/. Use the official Ssemble company email. **Important:** The account must be at least 7 days old before you can post.
+- **Demo video** — must be created first (see above)
+- **Gallery images** — 3-5 screenshots showing the MCP server in action (Claude conversation, results, etc.)
+- **Maker profile** — Fill out the Product Hunt profile completely (photo, bio, website)
+
+**Preparation (do this 7+ days before launch):**
+
+1. **Create Product Hunt account** (if not existing) using official Ssemble email
+2. **Complete your profile** — photo, bio mentioning Ssemble, link to ssemble.com
+3. **Engage with the community** — upvote and comment on a few products over the first week (this builds credibility; Product Hunt has spam filters for brand-new accounts)
+4. **Prepare assets:**
+   - **Tagline** (60 chars max): `Create viral short-form videos from any AI assistant`
+   - **Description:**
+     ```
+     Ssemble AI Clipping is now available as an MCP server — connect it to Claude, Cursor, Windsurf, or any AI assistant and create short-form videos through natural conversation.
+
+     Just say "Create shorts from this YouTube video with chill music" and get AI-generated clips with viral scores, custom captions, gameplay overlays, and more.
+
+     🎬 9 tools: create shorts, browse templates, music, gameplay overlays, meme hooks
+     ⚡ Instant setup: npx @ssemble/mcp-server
+     🌐 Also available as hosted endpoint: mcp.ssemble.com
+     ```
+   - **Topics:** `Artificial Intelligence`, `Video`, `Developer Tools`, `Open Source`
+   - **Demo video** — the one created above
+   - **Gallery images** — 3-5 screenshots
+
+**Launch day:**
+
+1. **Best time to post:** 12:01 AM PST (Pacific Time) — this gives the full 24-hour voting window
+2. **Best days:** Tuesday, Wednesday, or Thursday (highest traffic)
+3. Go to https://www.producthunt.com/posts/new
+4. Fill in:
+   - Name: `Ssemble AI Clipping MCP Server`
+   - Tagline: `Create viral short-form videos from any AI assistant`
+   - Links: npm package URL, GitHub repo, ssemble.com
+   - Topics: AI, Video, Developer Tools
+   - Upload: demo video + gallery images
+5. **Post a "Maker's Comment"** immediately after launching — introduce yourself, explain why you built it, and offer to answer questions
+6. **Share the link** on Twitter/X, LinkedIn, and in relevant Slack/Discord communities
+
+---
+
+#### Reddit & Hacker News Posts
+
+**What:** Community posts to drive awareness among developers and AI enthusiasts.
+
+**Prerequisites:**
+- **Reddit account** — should have some karma (at least 50-100 comment karma). Reddit heavily filters posts from new/low-karma accounts. If the account is new, spend 1-2 weeks commenting helpfully in relevant subreddits first.
+- **Hacker News account** — create at https://news.ycombinator.com/. Having some karma (from commenting) helps posts avoid the spam filter, but it's not strictly required.
+
+**Reddit — Recommended Subreddits:**
+
+| Subreddit | Subscribers | Best Format | Notes |
+|-----------|------------|-------------|-------|
+| r/LocalLLaMA | ~800K | Technical showcase | Most receptive to MCP tools. Frame as technical achievement, include code/setup instructions |
+| r/ClaudeAI | ~100K | Tool announcement | Directly relevant audience. Share practical use case |
+| r/ChatGPTCoding | ~200K | Tutorial-style | Show how it works with code examples |
+| r/artificial | ~900K | News/discussion | Broader AI audience |
+
+**Reddit post template (for r/LocalLLaMA or r/ClaudeAI):**
+
+```
+Title: I built an MCP server that lets Claude/Cursor create viral short-form videos from YouTube
+
+Body:
+
+We just shipped an MCP server for Ssemble AI Clipping. You can now create
+TikTok/Reels/Shorts-style videos directly from your AI assistant.
+
+**What it does:**
+- Create AI-generated short clips from any YouTube video
+- Browse 9+ caption templates, 45+ music tracks, 30+ gameplay overlays
+- Split-screen gaming, meme hooks, custom CTAs
+- Each clip gets a viral score, title, and description
+
+**How to set it up (30 seconds):**
+
+Claude Desktop — add to config:
+{
+  "mcpServers": {
+    "ssemble": {
+      "command": "npx",
+      "args": ["@ssemble/mcp-server"],
+      "env": { "SSEMBLE_API_KEY": "your_key" }
+    }
+  }
+}
+
+Or use the hosted endpoint: https://mcp.ssemble.com/mcp
+
+**Example conversation:**
+> "Create shorts from this YouTube video with Minecraft gameplay and chill music"
+> → Returns clips with download links, viral scores, and AI-generated titles
+
+npm: https://www.npmjs.com/package/@ssemble/mcp-server
+Source: [GitHub/GitLab URL]
+
+Happy to answer any questions!
+```
+
+**Important Reddit rules:**
+- **90/10 rule:** No more than 10% of your posts should be self-promotional. Comment helpfully on other posts too.
+- **Don't cross-post the same text** to multiple subreddits simultaneously — Reddit's spam filter catches this. Space them 1-2 days apart and adjust the post for each audience.
+- **Engage with comments** — answer every question, be genuine, don't be defensive about criticism.
+- **Don't use URL shorteners** — Reddit auto-removes them.
+
+**Hacker News — Show HN Post:**
+
+1. Go to https://news.ycombinator.com/submit
+2. Title: `Show HN: MCP server for creating viral short-form videos from YouTube`
+   - Must start with "Show HN:" exactly
+   - Keep it factual and descriptive (HN doesn't like hype)
+   - No ALL CAPS, no exclamation marks
+3. URL: Link to GitHub repo (preferred) or npm package page
+4. **Immediately post a first comment** explaining:
+   - What it does and why you built it
+   - Technical details (MCP protocol, Node.js, Streamable HTTP transport)
+   - How it compares to alternatives
+   - What's next on the roadmap
+5. **Best time to post:** 8-9 AM EST on a weekday (Tuesday-Thursday)
+6. **Don't ask for upvotes** — this is against HN rules and will get the post flagged
+
+**HN first comment template:**
+```
+Hey HN! We built an MCP (Model Context Protocol) server that wraps the Ssemble
+AI Clipping API, letting any AI assistant create short-form videos through
+natural conversation.
+
+The server exposes 9 tools: create shorts, check status, get results, browse
+templates/music/gameplay/meme hooks. It handles the async nature of video
+processing (5-30 min) with a submit-poll-retrieve pattern.
+
+Tech: Plain JavaScript (no build step), @modelcontextprotocol/sdk, Express for
+HTTP transport. Runs as stdio for local use or Streamable HTTP for hosted.
+
+Available via npx or as a hosted endpoint at mcp.ssemble.com.
+
+Would love feedback on the tool design and MCP integration patterns we used.
+```
+
+---
+
+#### Submission Timeline (Recommended Order)
+
+| # | Task | When | Dependencies |
+|---|------|------|--------------|
+| 1 | Create GitHub mirror | Day 1 | GitHub account |
+| 2 | Submit to Smithery.ai | Day 1 | GitHub account (same session) |
+| 3 | Submit to Glama.ai | Day 1 | None (check auto-index first) |
+| 4 | Create demo video | Days 2-3 | Ssemble API key with credits |
+| 5 | Product Hunt account setup | Day 3 | Official email |
+| 6 | Reddit posts (r/LocalLLaMA first) | Day 4-5 | Reddit account with karma |
+| 7 | Hacker News Show HN | Day 5-6 | HN account, GitHub repo |
+| 8 | Product Hunt launch | Day 10+ | Account must be 7+ days old, demo video ready |
+
+**Note:** Items 1-3 can all be done in the same session by someone with the GitHub credentials. Items 4-8 require more preparation and should be spaced out.
 
 ### Phase 8: Advanced Features (Future)
 
