@@ -1029,7 +1029,7 @@ These are the actions the AI can invoke:
 
 - [x] **Publish to npm** — `@ssemble/mcp-server@1.0.0` published (https://www.npmjs.com/package/@ssemble/mcp-server)
 - [x] **Create `server.json`** for Official MCP Registry — Already in repo with npm package + remote transport metadata
-- [ ] **Submit to Official MCP Registry** — `mcp-publisher publish` (modelcontextprotocol.io)
+- [x] **Submit to Official MCP Registry** — Published as `com.ssemble/mcp-server@1.0.2` via DNS auth (ssemble.com). Status: active. Verified in registry search. (March 25, 2026)
 - [ ] **Submit to Smithery.ai** — Submit `https://mcp.ssemble.com/mcp` at smithery.ai/new
 - [ ] **Submit to mcp.so** — Community directory, web form submission
 - [ ] **Submit to Glama.ai** — Auto-indexed by npm keywords, or manual submit
@@ -1215,9 +1215,9 @@ npm install -g @ssemble/mcp-server
 # Or run directly
 npx @ssemble/mcp-server
 
-# Package: @ssemble/mcp-server@1.0.0
+# Package: @ssemble/mcp-server@1.0.2
 # Binary: ssemble-mcp
-# Published: March 25, 2026
+# Published: March 25, 2026 (v1.0.0 → v1.0.1 homepage fix → v1.0.2 MCP Registry)
 ```
 
 **To publish a new version:**
@@ -1267,7 +1267,8 @@ Add a new page at `content/docs/mcp.mdx`:
 - SSL: Cloudflare handles client-facing SSL, NGINX uses existing Let's Encrypt cert
 - Deployment: GitLab CI/CD (manual trigger on `main` branch) or `deploy/deploy.sh` script
 - Deployed: March 25, 2026
-- npm published: `@ssemble/mcp-server@1.0.0` (March 25, 2026)
+- npm published: `@ssemble/mcp-server@1.0.2` (March 25, 2026)
+- MCP Registry: `com.ssemble/mcp-server` — active, DNS-authenticated via ssemble.com (March 25, 2026)
 
 ---
 
