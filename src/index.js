@@ -27,7 +27,9 @@ export function createSsembleMcpServer(apiKey, baseUrl) {
     version: '1.0.0',
   });
 
-  const client = new SsembleClient(apiKey, baseUrl);
+  // Client is created lazily — allows MCP initialize/discovery without an API key.
+  // Tools will get a clear error if key is missing when they actually call the API.
+  const client = new SsembleClient(apiKey, baseUrl, { lazy: true });
 
   // Register all 9 tools
   registerCreateShort(server, client);

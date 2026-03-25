@@ -42,19 +42,10 @@ app.get('/.well-known/mcp/server-card.json', (_req, res) => {
 
 // MCP endpoint — stateless mode (each request is independent)
 app.all('/mcp', async (req, res) => {
-  const apiKey = req.headers['x-ssemble-api-key'] || process.env.SSEMBLE_API_KEY;
-
-  if (!apiKey) {
-    return res.status(401).json({
-      error: {
-        code: 'missing_api_key',
-        message: 'Ssemble API key required. Pass via X-Ssemble-API-Key header or set SSEMBLE_API_KEY env var.',
-      },
-    });
-  }
+  const apiKey = req.headers['x-ssemble-api-key'] || process.env.SSEMBLE_API_KEY || null;
+  const baseUrl = process.env.SSEMBLE_API_BASE_URL;
 
   try {
-    const baseUrl = process.env.SSEMBLE_API_BASE_URL;
     const server = createSsembleMcpServer(apiKey, baseUrl);
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined, // stateless

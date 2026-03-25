@@ -17,18 +17,33 @@ export class SsembleApiError extends Error {
 }
 
 export class SsembleClient {
-  constructor(apiKey, baseUrl) {
-    if (!apiKey) {
-      throw new Error('SSEMBLE_API_KEY is required');
-    }
-    if (!apiKey.startsWith('sk_ssemble_')) {
-      throw new Error('Invalid API key format. Must start with sk_ssemble_');
+  constructor(apiKey, baseUrl, options = {}) {
+    if (!options.lazy) {
+      if (!apiKey) {
+        throw new Error('SSEMBLE_API_KEY is required');
+      }
+      if (!apiKey.startsWith('sk_ssemble_')) {
+        throw new Error('Invalid API key format. Must start with sk_ssemble_');
+      }
     }
     this.apiKey = apiKey;
     this.baseUrl = baseUrl || DEFAULT_BASE_URL;
   }
 
   async _request(method, path, { body, query } = {}) {
+    if (!this.apiKey) {
+      throw new SsembleApiError(401, {
+        code: 'missing_api_key',
+        message: 'Ssemble API key required. Pass via X-Ssemble-API-Key header when using the remote endpoint, or set SSEMBLE_API_KEY env var for local usage. Get your key at https://app.ssemble.com → Settings → API Keys.',
+      });
+    }
+    if (!this.apiKey.startsWith('sk_ssemble_')) {
+      throw new SsembleApiError(401, {
+        code: 'invalid_api_key',
+        message: 'Invalid API key format. Must start with sk_ssemble_',
+      });
+    }
+
     let url = `${this.baseUrl}${path}`;
 
     if (query) {
