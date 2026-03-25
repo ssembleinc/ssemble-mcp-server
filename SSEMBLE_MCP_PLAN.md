@@ -923,7 +923,7 @@ These are the actions the AI can invoke:
 
 - [x] **PM2 configuration** — `process.json` created
 - [x] **NGINX config** — `deploy/nginx-mcp.conf` created for load balancer (10.0.0.21)
-- [x] **GitLab CI/CD** — `.gitlab-ci.yml` with manual deploy to API servers (matching backend pattern)
+- [x] **GitLab CI/CD** — `.gitlab-ci.yml` with `deploy_main_mcp` (production, manual) and `deploy_development_mcp` (dev, auto)
 - [x] **Deploy script** — `deploy/deploy.sh` for manual deployments
 - [x] **First deploy to API servers** — Deployed on 10.0.0.12 and 10.0.0.13, PM2 `ssemble-mcp-http` online (~71MB RAM)
 - [x] **Install NGINX config** on load balancer (10.0.0.21) — Added server block in `nginx.conf`, reloaded
@@ -950,8 +950,80 @@ These are the actions the AI can invoke:
 - SSL mode: Full (Cloudflare handles client SSL, accepts origin cert)
 
 **GitLab CI/CD:**
-- `.gitlab-ci.yml` with `deploy_main_api` job (manual trigger on `main` branch)
-- SSHs to both API servers as `ssemble` user, pulls code, restarts PM2
+- `.gitlab-ci.yml` with two deployment jobs:
+  - `deploy_main_mcp` — Production deploy to API servers (manual trigger on `main` branch), SSHs as `ssemble` user
+  - `deploy_development_mcp` — Dev deploy to 10.0.0.20 (auto on `development` branch), SSHs as `root` user
+
+**Development Server (10.0.0.20) — NOT YET DEPLOYED:**
+- Directory: `/root/ssemble-mcp-server/`
+- User: `root`
+- Node.js: v20.14.0 (matching existing dev environment)
+- Branch: `development`
+- PM2 process: `ssemble-mcp-http` (same name, separate server)
+- Public IP: 20.80.243.82
+- Note: Dev VM costs ~$383/month, only start when needed for development
+
+**Dev Server Setup Steps (when needed):**
+
+1. **Start the dev VM** (if stopped):
+   ```bash
+   az vm start --resource-group ssemble --name dev-shortsmaker-api-request-processor-export
+   ```
+
+2. **Create `development` branch** in GitLab (from local):
+   ```bash
+   cd /home/cer/ssemble_projects/ssemble-mcp-server
+   git checkout -b development
+   git push -u origin development
+   git checkout main
+   ```
+
+3. **Clone repo on dev server** (SSH to 10.0.0.20 as root):
+   ```bash
+   ssh root@10.0.0.20
+   cd /root
+   git clone https://gitlab.com/vlogr/ssemble-mcp-server.git
+   cd ssemble-mcp-server
+   git checkout development
+   export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin
+   npm install --production
+   pm2 start process.json
+   pm2 save
+   ```
+
+4. **Add NGINX config on load balancer** (SSH to 10.0.0.21):
+   Add a new server block in `/etc/nginx/nginx.conf` (before `include sites-enabled`):
+   ```nginx
+   server {
+       listen 443 ssl;
+       server_name dev-mcp.ssemble.com;
+
+       ssl_certificate /etc/letsencrypt/live/plugin-shortsmaker.ssemble.com/fullchain.pem;
+       ssl_certificate_key /etc/letsencrypt/live/plugin-shortsmaker.ssemble.com/privkey.pem;
+
+       location / {
+           proxy_pass http://10.0.0.20:3100;
+           proxy_http_version 1.1;
+           proxy_set_header Host $host;
+           proxy_set_header Connection '';
+           proxy_buffering off;
+           proxy_cache off;
+           proxy_read_timeout 300s;
+       }
+   }
+   ```
+   Then: `sudo nginx -t && sudo systemctl reload nginx`
+
+5. **Add Cloudflare DNS record:**
+   - Type: A
+   - Name: `dev-mcp`
+   - Value: `74.249.53.6` (load balancer public IP)
+   - Proxy: ON (orange cloud)
+
+6. **Verify:**
+   ```bash
+   curl https://dev-mcp.ssemble.com/health
+   ```
 
 ### Phase 7: Publishing & Distribution
 

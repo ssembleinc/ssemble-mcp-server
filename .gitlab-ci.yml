@@ -1,7 +1,31 @@
 stages:
   - deploy
 
-deploy_main_api:
+deploy_development_mcp:
+  stage: deploy
+  script:
+    - echo "Deploying MCP Server to DEV server (10.0.0.20)..."
+    - |
+      for machine in 10.0.0.20; do
+        ssh root@$machine '
+          source /root/.bashrc &&
+          cd /root/ssemble-mcp-server &&
+          git stash &&
+          git checkout development &&
+          git reset --hard HEAD &&
+          git pull origin development &&
+          export PATH=$PATH:/root/.nvm/versions/node/v20.14.0/bin &&
+          npm install --production &&
+          pm2 stop ssemble-mcp-http || true &&
+          pm2 delete ssemble-mcp-http || true &&
+          pm2 start process.json &&
+          pm2 save
+        '
+      done
+  only:
+    - development
+
+deploy_main_mcp:
   stage: deploy
   script:
     - echo "Deploying MCP Server to API servers (10.0.0.12, 10.0.0.13)..."
