@@ -1028,25 +1028,7 @@ These are the actions the AI can invoke:
 ### Phase 7: Publishing & Distribution
 
 - [x] **Publish to npm** — `@ssemble/mcp-server@1.0.0` published (https://www.npmjs.com/package/@ssemble/mcp-server)
-- [ ] **Create `server.json`** for Official MCP Registry:
-  ```json
-  {
-    "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-    "name": "io.github.aiclipping/ssemble-mcp-server",
-    "title": "Ssemble AI Clipping",
-    "description": "Create AI-powered short-form video clips from YouTube videos.",
-    "version": "1.0.0",
-    "websiteUrl": "https://aiclipping.ssemble.com",
-    "repository": { "type": "git", "url": "https://gitlab.com/vlogr/ssemble-mcp-server" },
-    "packages": [{
-      "registryType": "npm",
-      "identifier": "@ssemble/mcp-server",
-      "transport": "stdio",
-      "environmentVariables": [{ "name": "SSEMBLE_API_KEY", "required": true }]
-    }],
-    "remotes": [{ "transportType": "streamable-http", "url": "https://mcp.ssemble.com/mcp" }]
-  }
-  ```
+- [x] **Create `server.json`** for Official MCP Registry — Already in repo with npm package + remote transport metadata
 - [ ] **Submit to Official MCP Registry** — `mcp-publisher publish` (modelcontextprotocol.io)
 - [ ] **Submit to Smithery.ai** — Submit `https://mcp.ssemble.com/mcp` at smithery.ai/new
 - [ ] **Submit to mcp.so** — Community directory, web form submission
@@ -1081,7 +1063,6 @@ npm install -g @ssemble/mcp-server
 git clone https://gitlab.com/vlogr/ssemble-mcp-server.git
 cd ssemble-mcp-server
 npm install
-npm run build
 ```
 
 ### 7.2 Get Your API Key
@@ -1223,13 +1204,28 @@ Once configured, you can ask your AI assistant:
 
 ## 9. Distribution & Publishing
 
-### 9.1 npm Package
+### 9.1 npm Package (PUBLISHED)
+
+**Live:** https://www.npmjs.com/package/@ssemble/mcp-server
 
 ```bash
-# Publish as scoped package
+# Install globally
+npm install -g @ssemble/mcp-server
+
+# Or run directly
+npx @ssemble/mcp-server
+
+# Package: @ssemble/mcp-server@1.0.0
+# Binary: ssemble-mcp
+# Published: March 25, 2026
+```
+
+**To publish a new version:**
+```bash
+cd ssemble-mcp-server
+# Update version in package.json
 npm publish --access public
-# Package name: @ssemble/mcp-server
-# Binary: npx @ssemble/mcp-server
+# Uses granular access token configured in ~/.npmrc
 ```
 
 ### 9.2 MCP Server Directories
@@ -1271,6 +1267,7 @@ Add a new page at `content/docs/mcp.mdx`:
 - SSL: Cloudflare handles client-facing SSL, NGINX uses existing Let's Encrypt cert
 - Deployment: GitLab CI/CD (manual trigger on `main` branch) or `deploy/deploy.sh` script
 - Deployed: March 25, 2026
+- npm published: `@ssemble/mcp-server@1.0.0` (March 25, 2026)
 
 ---
 
