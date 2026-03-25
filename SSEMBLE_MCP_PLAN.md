@@ -1027,7 +1027,7 @@ These are the actions the AI can invoke:
 
 ### Phase 7: Publishing & Distribution
 
-- [ ] **Publish to npm** — `@ssemble/mcp-server` with `npm publish --access public`
+- [x] **Publish to npm** — `@ssemble/mcp-server@1.0.0` published (https://www.npmjs.com/package/@ssemble/mcp-server)
 - [ ] **Create `server.json`** for Official MCP Registry:
   ```json
   {
