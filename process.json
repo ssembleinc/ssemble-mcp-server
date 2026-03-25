@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "ssemble-mcp-http",
+      "script": "./src/transports/http.js",
+      "instances": 1,
+      "max_memory_restart": "512M",
+      "env": {
+        "NODE_ENV": "production",
+        "MCP_PORT": "3100",
+        "SSEMBLE_API_BASE_URL": "http://localhost:3000/api/v1"
+      }
+    }
+  ]
+}
