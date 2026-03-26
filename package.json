@@ -1,6 +1,6 @@
 {
   "name": "@ssemble/mcp-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "mcpName": "com.ssemble/mcp-server",
   "description": "MCP server for Ssemble AI Clipping — create viral short-form videos from any AI assistant",
   "type": "module",
@@ -34,7 +34,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/vlogr/ssemble-mcp-server.git"
+    "url": "https://github.com/ssembleinc/ssemble-mcp-server.git"
   },
   "homepage": "https://www.ssemble.com/",
   "engines": {

@@ -60,6 +60,7 @@ export class SsembleClient {
     const headers = {
       'X-API-Key': this.apiKey,
       'Content-Type': 'application/json',
+      'User-Agent': 'ssemble-mcp-server/1.0.4',
     };
 
     const options = { method, headers };

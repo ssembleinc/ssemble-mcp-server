@@ -45,6 +45,13 @@ app.all('/mcp', async (req, res) => {
   const apiKey = req.headers['x-ssemble-api-key'] || process.env.SSEMBLE_API_KEY || null;
   const baseUrl = process.env.SSEMBLE_API_BASE_URL;
 
+  // Log MCP requests (tool calls) for usage tracking
+  if (req.body?.method === 'tools/call') {
+    const keyPrefix = apiKey ? apiKey.slice(0, 20) + '...' : 'no-key';
+    const toolName = req.body?.params?.name || 'unknown';
+    console.log(`[MCP] tool=${toolName} key=${keyPrefix} ip=${req.ip} time=${new Date().toISOString()}`);
+  }
+
   try {
     const server = createSsembleMcpServer(apiKey, baseUrl);
     const transport = new StreamableHTTPServerTransport({
