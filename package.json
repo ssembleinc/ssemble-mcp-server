@@ -1,6 +1,6 @@
 {
   "name": "@ssemble/mcp-server",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "mcpName": "com.ssemble/mcp-server",
   "description": "MCP server for Ssemble AI Clipping — create viral short-form videos from any AI assistant",
   "type": "module",

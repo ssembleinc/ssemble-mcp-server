@@ -11,7 +11,7 @@ import { createSsembleMcpServer } from '../index.js';
 const apiKey = process.env.SSEMBLE_API_KEY;
 if (!apiKey) {
   console.error('Error: SSEMBLE_API_KEY environment variable is required.');
-  console.error('Get your API key at https://app.ssemble.com → Settings → API Keys');
+  console.error('Get your API key at https://app.ssemble.com/api-keys');
   process.exit(1);
 }
 

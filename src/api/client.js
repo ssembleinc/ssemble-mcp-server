@@ -34,13 +34,13 @@ export class SsembleClient {
     if (!this.apiKey) {
       throw new SsembleApiError(401, {
         code: 'missing_api_key',
-        message: 'Ssemble API key required. Pass via X-Ssemble-API-Key header when using the remote endpoint, or set SSEMBLE_API_KEY env var for local usage. Get your key at https://app.ssemble.com → Settings → API Keys.',
+        message: 'Ssemble API key required. Pass via X-Ssemble-API-Key header when using the remote endpoint, or set SSEMBLE_API_KEY env var for local usage. Get your key at https://app.ssemble.com/api-keys',
       });
     }
     if (!this.apiKey.startsWith('sk_ssemble_')) {
       throw new SsembleApiError(401, {
         code: 'invalid_api_key',
-        message: 'Invalid API key format. Must start with sk_ssemble_',
+        message: 'Invalid API key format. Must start with sk_ssemble_. Get your key at https://app.ssemble.com/api-keys',
       });
     }
 
@@ -60,7 +60,7 @@ export class SsembleClient {
     const headers = {
       'X-API-Key': this.apiKey,
       'Content-Type': 'application/json',
-      'User-Agent': 'ssemble-mcp-server/1.0.4',
+      'User-Agent': 'ssemble-mcp-server/1.0.5',
     };
 
     const options = { method, headers };

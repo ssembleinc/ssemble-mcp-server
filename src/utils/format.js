@@ -171,11 +171,24 @@ export function formatDeleteResponse(result) {
 
 export function formatError(error) {
   if (error instanceof Error && error.code) {
-    let text = `**Error**: ${error.message}`;
-    if (error.code) text += ` (${error.code})`;
+    let text = `**Error**: ${error.message} (${error.code})`;
     if (error.details) {
       text += `\n\n**Details**: ${JSON.stringify(error.details, null, 2)}`;
     }
+
+    // Add helpful guidance based on error code
+    const helpLinks = {
+      missing_api_key: '\n\n**Get your API key**: https://app.ssemble.com/api-keys\n**Setup guide**: https://www.npmjs.com/package/@ssemble/mcp-server',
+      invalid_api_key: '\n\n**Get a valid API key**: https://app.ssemble.com/api-keys\nAPI keys start with `sk_ssemble_` and are 43 characters long.',
+      subscription_required: '\n\n**Subscribe to a plan**: https://app.ssemble.com/pricing\nAn active subscription is required to use the API.',
+      insufficient_credits: '\n\n**Get credits**: https://app.ssemble.com/pricing\nEach short creation costs 1 credit.',
+      user_not_found: '\n\n**Create an account**: https://app.ssemble.com\nThen generate an API key at https://app.ssemble.com/api-keys',
+    };
+
+    if (helpLinks[error.code]) {
+      text += helpLinks[error.code];
+    }
+
     if (error.rateLimits?.hourlyRemaining) {
       text += formatRateLimits(error.rateLimits);
     }
