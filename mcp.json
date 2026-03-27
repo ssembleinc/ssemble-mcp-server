@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ssemble": {
+      "command": "npx",
+      "args": ["@ssemble/mcp-server"],
+      "env": {
+        "SSEMBLE_API_KEY": "${SSEMBLE_API_KEY}"
+      }
+    }
+  }
+}

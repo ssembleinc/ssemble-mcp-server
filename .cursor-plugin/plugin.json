@@ -1,0 +1,14 @@
+{
+  "name": "ssemble-mcp-server",
+  "description": "Create AI-generated short-form video clips from YouTube with captions, music, gameplay overlays, and viral scoring",
+  "version": "1.0.5",
+  "author": {
+    "name": "Ssemble",
+    "email": "support@ssemble.com"
+  },
+  "homepage": "https://ssemble.com",
+  "repository": "https://github.com/ssembleinc/ssemble-mcp-server",
+  "license": "MIT",
+  "keywords": ["mcp", "video", "shorts", "youtube", "ai-clipping", "tiktok", "claude", "cursor"],
+  "mcpServers": "../mcp.json"
+}
