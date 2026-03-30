@@ -28,6 +28,7 @@ const schema = {
   musicName: z.string().describe('Exact track name from list_music (case-sensitive)').optional(),
   musicVolume: z.number().min(0).max(100).default(10).describe('Music volume 0-100').optional(),
   layout: z.enum(['auto', 'fill', 'fit', 'square']).default('auto').describe('Video framing layout').optional(),
+  webhookUrl: z.string().url().describe('Optional webhook URL for completion/failure notifications. Receives a POST with results when processing finishes.').optional(),
 };
 
 export function registerCreateShort(server, client) {

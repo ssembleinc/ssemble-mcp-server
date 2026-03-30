@@ -9,6 +9,7 @@ Works with **Claude Desktop**, **Claude Code**, **Cursor**, **VS Code**, **Winds
 This MCP server lets AI assistants create short-form video clips from YouTube videos using Ssemble's AI clipping engine. The AI can:
 
 - **Create shorts** from YouTube URLs or uploaded files
+- **Webhook callbacks** — get notified when processing completes (works with n8n, Zapier, Make)
 - **Browse assets** — caption templates, background music, gameplay overlays, meme hooks
 - **Track processing** — check progress and retrieve completed clips
 - **Manage requests** — list history, get results, delete old requests
@@ -91,11 +92,38 @@ Add to your MCP settings:
 
 ## How Processing Works
 
-Video processing takes 5-30 minutes. The workflow is:
+Video processing takes 5-30 minutes. Two workflows available:
 
+### Option A: Polling (manual check)
 1. `create_short` — submits the job and returns instantly with a request ID
 2. `get_status` — check progress anytime (queued → processing → completed)
 3. `get_shorts` — retrieve the generated clips when done
+
+### Option B: Webhook (automated)
+1. `create_short` with `webhookUrl` — submits the job with a callback URL
+2. When processing completes or fails, the API sends an HTTP POST to your URL with the results
+3. No polling needed — ideal for n8n, Zapier, Make, and custom backend integrations
+
+Webhook payload example:
+```json
+{
+  "event": "shorts.completed",
+  "requestId": "507f1f77bcf86cd799439011",
+  "status": "completed",
+  "timestamp": "2026-03-30T12:00:00.000Z",
+  "data": {
+    "shorts": [
+      {
+        "id": "...",
+        "title": "AI-Generated Title",
+        "video_url": "https://...",
+        "duration": 45,
+        "viral_score": 8.5
+      }
+    ]
+  }
+}
+```
 
 ## Usage Examples
 

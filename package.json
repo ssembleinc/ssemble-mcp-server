@@ -1,8 +1,8 @@
 {
   "name": "@ssemble/mcp-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "mcpName": "com.ssemble/mcp-server",
-  "description": "MCP server for Ssemble AI Clipping — create viral short-form videos from any AI assistant",
+  "description": "MCP server for Ssemble AI Clipping — create viral short-form videos from any AI assistant. Webhook callbacks for n8n, Zapier, and Make automation.",
   "type": "module",
   "bin": {
     "ssemble-mcp": "./src/transports/stdio.js"
