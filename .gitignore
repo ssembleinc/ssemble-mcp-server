@@ -3,3 +3,5 @@ node_modules/
 *.log
 .DS_Store
 key.pem
+mcp-registry-key.pem
+*.pem
