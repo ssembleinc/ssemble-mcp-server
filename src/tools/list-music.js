@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import { formatPaginatedAssets, formatError } from '../utils/format.js';
 
 const schema = {
@@ -7,14 +8,43 @@ const schema = {
 };
 
 export function registerListMusic(server, client) {
-  server.tool(
+  registerAppTool(
+    server,
     'list_music',
-    'List available background music tracks with names and durations. Use the exact musicName when creating shorts.',
-    schema,
+    {
+      title: 'List Music',
+      description:
+        'List available background music tracks with names and durations. Use the exact musicName when creating shorts.',
+      inputSchema: schema,
+      _meta: {
+        ui: { resourceUri: 'ui://ssemble/music-app.html' },
+      },
+    },
     async (params) => {
       try {
         const result = await client.listMusic(params);
-        return { content: [{ type: 'text', text: formatPaginatedAssets(result, 'music', 'Background Music') }] };
+        const textFallback = formatPaginatedAssets(result, 'music', 'Background Music');
+
+        // Structured content for the MCP App
+        const items = result.data?.music || [];
+        const pagination = result.data?.pagination || {};
+        const structuredContent = {
+          music: items.map((t) => ({
+            name: t.name,
+            duration: t.duration,
+            url: t.url || '',
+          })),
+          pagination: {
+            page: pagination.page || 1,
+            totalPages: pagination.totalPages || 1,
+            totalCount: pagination.totalCount || items.length,
+          },
+        };
+
+        return {
+          content: [{ type: 'text', text: textFallback }],
+          structuredContent,
+        };
       } catch (error) {
         return { content: [{ type: 'text', text: formatError(error) }], isError: true };
       }

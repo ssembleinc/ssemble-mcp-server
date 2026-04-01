@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ssemble Meme Hooks</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+      background: var(--color-background-primary, #1a1a2e);
+      color: var(--color-text-primary, #e0e0e0);
+      padding: 16px;
+    }
+    h2 { font-size: 18px; margin-bottom: 16px; color: var(--color-text-primary, #fff); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--color-background-secondary, #16213e);
+      border-radius: var(--border-radius-md, 8px);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .card:hover { border-color: var(--color-border-primary, #4a6cf7); transform: translateY(-2px); }
+    .card.selected { border-color: var(--color-border-primary, #4a6cf7); box-shadow: 0 0 12px rgba(74,108,247,0.3); }
+    .card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      background: var(--color-background-tertiary, #0f3460);
+    }
+    .card .placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--color-background-tertiary, #0f3460);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary, #555);
+      font-size: 12px;
+    }
+    .card-label {
+      padding: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .duration-badge {
+      display: inline-block;
+      font-size: 10px;
+      background: var(--color-background-tertiary, #0f3460);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+    .loading { text-align: center; padding: 40px; color: var(--color-text-secondary, #888); }
+    .selected-info {
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--color-background-secondary, #16213e);
+      border-radius: var(--border-radius-md, 8px);
+      font-size: 13px;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .pagination button {
+      padding: 6px 16px;
+      border-radius: var(--border-radius-md, 6px);
+      border: 1px solid var(--color-border-primary, #4a6cf7);
+      background: transparent;
+      color: var(--color-border-primary, #4a6cf7);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .pagination button:disabled { opacity: 0.4; cursor: default; }
+    .pagination button:hover:not(:disabled) { background: var(--color-border-primary, #4a6cf7); color: #fff; }
+    .page-info { font-size: 13px; color: var(--color-text-secondary, #888); display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+  <div id="app"><div class="loading">Loading meme hooks...</div></div>
+  <script type="module" src="./meme-hooks-app.js"></script>
+</body>
+</html>

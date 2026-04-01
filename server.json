@@ -3,7 +3,7 @@
   "name": "com.ssemble/mcp-server",
   "title": "Ssemble AI Clipping",
   "description": "Create AI-powered short-form video clips from YouTube videos. Supports webhook callbacks.",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "websiteUrl": "https://www.ssemble.com",
   "repository": {
     "url": "https://github.com/ssembleinc/ssemble-mcp-server",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@ssemble/mcp-server",
-      "version": "1.0.6",
+      "version": "1.1.0",
       "transport": {
         "type": "stdio"
       },

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ssemble Music</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+      background: var(--color-background-primary, #1a1a2e);
+      color: var(--color-text-primary, #e0e0e0);
+      padding: 16px;
+    }
+    h2 { font-size: 18px; margin-bottom: 16px; color: var(--color-text-primary, #fff); }
+    .track {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--color-background-secondary, #16213e);
+      border-radius: var(--border-radius-md, 8px);
+      margin-bottom: 8px;
+      transition: background 0.15s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .track:hover { background: var(--color-background-tertiary, #1a2a50); }
+    .track.playing { background: var(--color-background-tertiary, #1a2a50); border-left: 3px solid var(--color-border-primary, #4a6cf7); }
+    .track.selected { border-color: var(--color-border-primary, #4a6cf7); }
+    .play-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-border-primary, #4a6cf7);
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .play-btn:hover { opacity: 0.85; }
+    .play-btn:disabled { opacity: 0.4; cursor: default; }
+    .track-info { flex: 1; margin-left: 12px; overflow: hidden; }
+    .track-name {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-duration { font-size: 12px; color: var(--color-text-secondary, #888); margin-top: 2px; }
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--color-background-tertiary, #0f3460);
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--color-border-primary, #4a6cf7);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.3s linear;
+    }
+    .loading { text-align: center; padding: 40px; color: var(--color-text-secondary, #888); }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .pagination button {
+      padding: 6px 16px;
+      border-radius: var(--border-radius-md, 6px);
+      border: 1px solid var(--color-border-primary, #4a6cf7);
+      background: transparent;
+      color: var(--color-border-primary, #4a6cf7);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .pagination button:disabled { opacity: 0.4; cursor: default; }
+    .pagination button:hover:not(:disabled) { background: var(--color-border-primary, #4a6cf7); color: #fff; }
+    .page-info { font-size: 13px; color: var(--color-text-secondary, #888); display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+  <div id="app"><div class="loading">Loading music tracks...</div></div>
+  <script type="module" src="./music-app.js"></script>
+</body>
+</html>

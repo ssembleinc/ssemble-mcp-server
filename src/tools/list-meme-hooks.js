@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { registerAppTool } from '@modelcontextprotocol/ext-apps/server';
 import { formatPaginatedAssets, formatError } from '../utils/format.js';
 
 const schema = {
@@ -7,14 +8,43 @@ const schema = {
 };
 
 export function registerListMemeHooks(server, client) {
-  server.tool(
+  registerAppTool(
+    server,
     'list_meme_hooks',
-    'List available meme hook clips (2-5 second attention grabbers prepended to shorts). Use the exact memeHookName when creating shorts.',
-    schema,
+    {
+      title: 'List Meme Hooks',
+      description:
+        'List available meme hook clips (2-5 second attention grabbers prepended to shorts). Use the exact memeHookName when creating shorts.',
+      inputSchema: schema,
+      _meta: {
+        ui: { resourceUri: 'ui://ssemble/meme-hooks-app.html' },
+      },
+    },
     async (params) => {
       try {
         const result = await client.listMemeHooks(params);
-        return { content: [{ type: 'text', text: formatPaginatedAssets(result, 'memeHooks', 'Meme Hooks') }] };
+        const textFallback = formatPaginatedAssets(result, 'memeHooks', 'Meme Hooks');
+
+        const items = result.data?.memeHooks || [];
+        const pagination = result.data?.pagination || {};
+        const structuredContent = {
+          memeHooks: items.map((h) => ({
+            name: h.name,
+            preview: h.preview || '',
+            video: h.video || '',
+            video_duration: h.video_duration || 0,
+          })),
+          pagination: {
+            page: pagination.page || 1,
+            totalPages: pagination.totalPages || 1,
+            totalCount: pagination.totalCount || items.length,
+          },
+        };
+
+        return {
+          content: [{ type: 'text', text: textFallback }],
+          structuredContent,
+        };
       } catch (error) {
         return { content: [{ type: 'text', text: formatError(error) }], isError: true };
       }

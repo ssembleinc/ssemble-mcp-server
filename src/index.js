@@ -19,6 +19,7 @@ import { registerListMemeHooks } from './tools/list-meme-hooks.js';
 
 // Resources & Prompts
 import { registerResources } from './resources/static-data.js';
+import { registerAppResources } from './resources/app-resources.js';
 import { registerPrompts } from './prompts/workflows.js';
 
 export function createSsembleMcpServer(apiKey, baseUrl) {
@@ -44,6 +45,7 @@ export function createSsembleMcpServer(apiKey, baseUrl) {
 
   // Register resources
   registerResources(server);
+  registerAppResources(server);
 
   // Register prompts
   registerPrompts(server);

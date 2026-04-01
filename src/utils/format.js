@@ -144,14 +144,18 @@ export function formatPaginatedAssets(result, assetKey, assetLabel) {
     return `No ${assetLabel} found.${formatRateLimits(result.rateLimits)}`;
   }
 
+  const hasUrl = items.some((item) => item.url);
+  const hasDuration = items[0]?.duration != null;
+
   let text = `## ${assetLabel} (Page ${p.page}/${p.totalPages}, ${p.totalCount} total)\n\n`;
-  text += `| # | Name |${items[0]?.duration != null ? ' Duration |' : ''}\n`;
-  text += `|---|------|${items[0]?.duration != null ? '----------|' : ''}\n`;
+  text += `| # | Name |${hasDuration ? ' Duration |' : ''}${hasUrl ? ' Listen |' : ''}\n`;
+  text += `|---|------|${hasDuration ? '----------|' : ''}${hasUrl ? '--------|' : ''}\n`;
 
   items.forEach((item, i) => {
     const num = (p.page - 1) * p.limit + i + 1;
-    const durationCol = item.duration != null ? ` ${item.duration}s |` : '';
-    text += `| ${num} | ${item.name} |${durationCol}\n`;
+    const durationCol = hasDuration ? ` ${Math.round(item.duration)}s |` : '';
+    const listenCol = hasUrl ? ` ${item.url ? `[▶ Play](${item.url})` : ''} |` : '';
+    text += `| ${num} | ${item.name} |${durationCol}${listenCol}\n`;
   });
 
   if (p.totalPages > 1) {
